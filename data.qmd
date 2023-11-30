@@ -1,7 +1,9 @@
 # Data
 
-## Description
-# New York City Rat Sightings Dataset, collected from NYC Open Data. Source: https://data.cityofnewyork.us/Social-Services/Rat-Sightings/3q43-55fe
+## Technical Description
+# New York City Rat Sightings Dataset, collected from NYC Open Data. 
+Data Source: https://data.cityofnewyork.us/Social-Services/Rat-Sightings/3q43-55fe
+Data update frequency on the website: Everyday 9AM EST.
 This dataset contains various columns representing different aspects of rat sightings in New York City from 2010 to present day and is updated daily on the Open Data Platform.
 
 The data has 31 features with 232,536 rows. The description of the columns is as seen below:
@@ -38,7 +40,70 @@ The data has 31 features with 232,536 rows. The description of the columns is as
 30. **Longitude**: The longitude of the sighting location.
 31. **Location**: A textual representation of the sighting location, usually combining latitude and longitude.
 
+## Research Plan:
+
+Research Plan: New York City Rat Sightings Analysis
+
+1\. Objective Definition
+
+> Primary Objective:
+
+i. Understand patterns and trends of rat sightings in New York City.
+
+> Secondary Objectives:
+
+i.  Identify rat sighting hotspots.
+
+ii. Analyze response action effectiveness.
+
+iii. Assess seasonal and yearly sighting trends.
+
+Explore correlations with urban factors.
+
+2\. Data Exploration
+
+i. Data Cleaning: We will handle missing values, duplicates, and inconsistencies.
+
+ii. Data Transformation: We will format the data correctly.
+
+3\. Descriptive Analysis
+
+i. Initial Overview: Summary statistics and basic visualizations.
+
+ii. Geographical Analysis: Map-based distribution visualization.
+
+iii. Temporal Analysis: Time-based trend analysis.
+
+4\. In-Depth Analysis
+
+i. Hotspot Identification: Clustering for area frequency analysis.
+
+ii. Correlation Analysis: Examine relationships with other variables.
+
+iii. Comparative Analysis: Frequency and response comparison across areas.
+
+5\. Hypothesis Testing
+
+> Test hypotheses based on initial findings, e.g., relation to population density, seasonal patterns.
+
+6\. Predictive Modeling
+
+> Develop and evaluate models for forecasting sightings based on existing data
+
+7\. Actionable Insights and Recommendations
+
+i. Derive insights for urban sanitation and pest control improvements.
+
+ii. Policy recommendations to city authorities.
+
+8\. Reporting
+
+i. Visualizations: Detailed charts, graphs, and maps.
+
+ii. Documentation: Comprehensive report on findings and methodology in the form of a book on Github.io
+
 ## Missing value analysis
+
 This section analyses the missing values in the dataset.
 ```{r}
 library(dplyr)
