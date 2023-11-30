@@ -1,5 +1,64 @@
 # Data
 
 ## Description
+# New York City Rat Sightings Dataset, collected from NYC Open Data. Source: https://data.cityofnewyork.us/Social-Services/Rat-Sightings/3q43-55fe
+This dataset contains various columns representing different aspects of rat sightings in New York City from 2010 to present day and is updated daily on the Open Data Platform.
+
+The data has 31 features with 232,536 rows. The description of the columns is as seen below:
+
+1. **Unique Key**: A unique identifier for each sighting report.
+2. **Created Date**: The date and time when the sighting report was created.
+3. **Closed Date**: The date and time when the sighting report was resolved or closed.
+4. **Agency**: The agency responsible for handling the sighting report.
+5. **Agency Name**: The full name of the agency responsible for the report.
+6. **Complaint Type**: The type of complaint or issue reported.
+7. **Descriptor**: Additional details about the complaint.
+8. **Location Type**: The type of location where the sighting occurred.
+9. **Incident Zip**: The ZIP code where the sighting occurred.
+10. **Incident Address**: The specific address of the sighting.
+11. **Street Name**: The name of the street where the sighting occurred.
+12. **Cross Street 1**: The first cross street near the sighting location.
+13. **Cross Street 2**: The second cross street near the sighting location.
+14. **Intersection Street 1**: One street at the nearest intersection.
+15. **Intersection Street 2**: The other street at the nearest intersection.
+16. **Address Type**: The type of address provided for the sighting.
+17. **City**: The city where the sighting occurred.
+18. **Landmark**: Any landmark near the sighting location.
+19. **Facility Type**: The type of facility where the sighting occurred.
+20. **Status**: The current status of the sighting report.
+21. **Due Date**: The due date for resolving the report.
+22. **Resolution Action Updated Date**: The last date when the resolution action was updated.
+23. **Community Board**: The community board associated with the sighting location.
+24. **Borough**: The borough in which the sighting occurred.
+25. **X Coordinate (State Plane)**: The X coordinate of the sighting location in the State Plane Coordinate System.
+26. **Y Coordinate (State Plane)**: The Y coordinate of the sighting location in the State Plane Coordinate System.
+27. **Park Facility Name**: The name of the park facility near the sighting.
+28. **Park Borough**: The borough of the park near the sighting.
+29. **Latitude**: The latitude of the sighting location.
+30. **Longitude**: The longitude of the sighting location.
+31. **Location**: A textual representation of the sighting location, usually combining latitude and longitude.
 
 ## Missing value analysis
+This section analyses the missing values in the dataset.
+```{r}
+library(dplyr)
+library(tidyr)
+
+# reading dataset
+data <- read.csv("https://data.cityofnewyork.us/resource/3q43-55fe.csv")
+#data <- read.csv("C:\\Columbia\\EDAV\\Final Project\\Rat_Sightings.csv")
+
+# Total number of rows in the dataset
+total_rows <- nrow(data)
+
+# Calculate missing values count and percentage for each column
+missing_values <- data |> 
+  summarise(across(everything(), ~sum(is.na(.)))) |>
+  pivot_longer(cols = everything(), names_to = "Column", values_to = "count_missing") |>
+  mutate(percentage_missing = round((count_missing / total_rows) * 100,2)) |>
+  filter(count_missing > 0) # Filter out columns with no missing values
+
+# Print the result
+print(missing_values)
+```
+
