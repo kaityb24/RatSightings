@@ -6,11 +6,11 @@ execute:
   echo: true
 
 book:
-  title: "YOUR PROJECT TITLE"
+  title: "NYC Rat Sightings"
   author:
-    - AUTHOR1 (UNI1)
-    - AUTHOR2 (UNI2)
-  repo-url: https://github.com/YOUR_GITHUB_ACCOUNT/REPO_NAME
+    - Kaitlyn Brown (keb2234)
+    - Tushar Badhwar (tb3070)
+  repo-url: https://github.com/kaityb24/RatSightings
   date: today
   page-footer:
     right: |
@@ -25,7 +25,7 @@ book:
 
 format:
   html:
-    theme: cosmo
+    theme: litera
     code-fold: true
 
 
