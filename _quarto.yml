@@ -22,6 +22,7 @@ book:
     - results.qmd
     - d3graph.qmd
     - conclusion.qmd
+    - addendum.qmd
 
 format:
   html:
