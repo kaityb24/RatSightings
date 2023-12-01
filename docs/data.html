@@ -351,20 +351,20 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(missing_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 30 × 3
-   Feature                  count_missing percentage_missing
-   &lt;chr&gt;                            &lt;int&gt;              &lt;dbl&gt;
- 1 lat                             232536              100  
- 2 long                            232536              100  
- 3 Taxi.Pick.Up.Location           232536              100  
- 4 Bridge.Highway.Name             232536              100  
- 5 Bridge.Highway.Direction        232536              100  
- 6 Road.Ramp                       232536              100  
- 7 Bridge.Highway.Segment          232536              100  
- 8 Landmark                        138744               59.7
- 9 Intersection.Street.1           118273               50.9
-10 Intersection.Street.2           118233               50.8
-# ℹ 20 more rows</code></pre>
+<pre><code># A tibble: 23 × 3
+   Feature               count_missing percentage_missing
+   &lt;chr&gt;                         &lt;int&gt;              &lt;dbl&gt;
+ 1 Landmark                     138744              59.7 
+ 2 Intersection.Street.1        118273              50.9 
+ 3 Intersection.Street.2        118233              50.8 
+ 4 Facility.Type                107309              46.2 
+ 5 due                          100304              43.1 
+ 6 Cross.Street.1                26376              11.3 
+ 7 Cross.Street.2                26365              11.3 
+ 8 Closed.Date                   17364               7.47
+ 9 add                           10942               4.71
+10 Street.Name                   10943               4.71
+# ℹ 13 more rows</code></pre>
 </div>
 </div>
 <p><strong>We plot a chart which shows all columns and their missing values:</strong></p>
