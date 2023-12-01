@@ -1,5 +1,225 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,message = FALSE)
+```
+
 # Data
 
-## Description
+## Technical Description
+
+### About the data:
+
+This is the New York City Rat Sightings Dataset, collected from NYC Open Data.
+
+> Link to Data Source: [NYC Rat sightings dataset](https://data.cityofnewyork.us/Social-Services/Rat-Sightings/3q43-55fe)
+
+The data comes from 311 service requests and we imported the data directly from the link above using NYC Open Data's csv API, downloaded onto our local system and then used it for the analysis.
+
+### Data update frequency on the website:
+
+Everyday 9AM EST. This dataset contains various columns representing different aspects of rat sightings in New York City from 2010 to present day and is updated daily on the NYC Open Data Platform.
+
+### Descriptive stats about the data:
+
+The data has 31 features with 232,536 rows. We have not detailed all the 31 features but instead only the ones which will be mainly used for our analysis. An overall description of the features is given in the data addendum section.
+
+1.  **Created Date**: The date and time when the sighting report was created. This will be important for a time series analysis of the dataset.
+
+2.  **Agency, Agency Name**: The agency responsible for handling the sighting report. The only agency here in the dataset is the *Department of Mental Health and Hygiene*. This shall not be used much for the analysis.
+
+3.  **Location Type \[loc_type\]**: The type of location where the sighting occurred. This categoric feature has 23 levels. Each level can be used to split the data for analysing indepth trends.
+
+4.  **Incident Zip \[zip\]**: The ZIP code where the sighting occurred. Used for geospatial analysis of the data.
+
+5.  **Address Type \[add_type\]**: The type of address provided for the sighting. There are 6 levels in this categoric feature *Intersection, Address, Blockface, Placename, Latlong, Unrecognized.*
+
+6.  **City \[city\]**: The city area where the sighting occurred. While this feature is named city, it is actually areas in New York City where the sighting occurred. This is a categoric feature with 62 levels. We have identified the % distribution of data in each level and slice the data accordingly in the analysis.
+
+7.  **Status \[status\]**: The current status of the sighting report. This has 7 levels - *Pending, Closed, Assigned, In-Progress, Open, Draft, Unspecified.*
+
+8.  **Due Date \[due\]**: The due date for resolving the report.
+
+9.  **Borough \[bor\]**: The borough in which the sighting occurred. This has 6 levels *Queens, Brooklyn, Manhattan, Bronx, Staten Island and Unspecified.*
+
+10. **Latitude \[lat\]**: The latitude of the sighting location. Used for geo-spatial mapping of sightings.
+
+11. **Longitude \[long\]**: The longitude of the sighting location. Used for geo-spatial mapping of sightings
+
+## Research Plan:
+
+**1. Breakdown of research objectives**
+
+> [*Primary Objective:*]{.underline}
+
+i.  Understand patterns and trends of rat sightings in New York City.
+
+> [*Secondary Objectives:*]{.underline}
+
+i.  Identifying hotspots for rat sightings.
+
+ii. Evaluating the effectiveness and efficiency of response actions.
+
+iii. Investigating the seasonal and yearly trends in rat sightings.
+
+iv. Examining correlations between rat sightings and various urban factors.
+
+**2. Data Exploration**
+
+i.  Primary features we will use for analysing this dataset:
+
+    -   *Incident Zip, Latitude, Longitude* for geospatial analysis and plotting maps of rat sightings using clustering techniques
+
+    -   *Location Type and Borough* for analysing areas of rat sighting hotspots and finding correlations between them.
+
+**3. Descriptive Analysis**
+
+i.  [*Initial Overview:*]{.underline} Summary statistics and basic visualizations.
+
+ii. [*Geographical Analysis:*]{.underline} Map-based distribution visualization.
+
+iii. [*Temporal Analysis:*]{.underline} Time-based trend analysis, segmented by categorical features like *borough, status, address type.*
+
+**4. In-Depth Analysis**
+
+i.  [*Hotspot Identification:*]{.underline} Clustering for borrough-frequency analysis.
+
+ii. [*Comparative Analysis:*]{.underline} Frequency and response comparison across borroughs, split by different categoric features as well as time periods.
+
+**5. Actionable Insights and Recommendations**
+
+i.  Derive insights for urban sanitation and rat control improvements.
+
+ii. Policy recommendations to New York City authorities.
 
 ## Missing value analysis
+
+### Table of columns with missing values and their % missing out of the total data.
+
+```{r}
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+
+# Reading dataset
+data <- read.csv("C:\\Columbia\\EDAV\\Final Project\\Rat_Sightings.csv")
+replace_blanks_with_na <- function(x) {
+  if (is.character(x)) {
+    return(ifelse(x == "", NA, x))
+  } else if (is.integer(x)) {
+    return(ifelse(x == 0, NA_integer_, x)) # Replace '0' with NA for integers
+  } else {
+    return(x)
+  }
+}
+# replace every blank entry with NA
+data <- data |> 
+  mutate(across(everything(), replace_blanks_with_na))
+
+
+#renaming columns which are essential for our analysis
+cnames<- colnames(data)
+
+#renaming these columns
+data <- data |> 
+rename(
+    key = names(data)[1], 
+    loc_type = names(data)[8], 
+    zip = names(data)[9],
+    add = names(data)[10],
+    add_type = names(data)[16],
+    city = names(data)[17],
+    status = names(data)[20],
+    due = names(data)[21],
+    bor = names(data)[24],
+    lat = names(data)[29],
+    long = names(data)[30]
+  )
+
+# Total number of rows in the dataset
+total_rows <- nrow(data)
+
+# Calculate missing values count and percentage for each column
+missing_values <- data |> 
+  summarise(across(everything(), ~sum(is.na(.)))) |>
+  pivot_longer(cols = everything(), names_to = "Feature", values_to = "count_missing") |>
+  mutate(percentage_missing = round((count_missing / total_rows) * 100, 2)) |>
+  filter(count_missing > 0) |> # Filter out columns with no missing values
+  arrange(desc(percentage_missing)) # Arrange in descending order of missing percentage
+# Print the result
+print(missing_values)
+```
+
+**We plot a chart which shows all columns and their missing values:**
+
+```{r}
+library(naniar)
+library(tidyr)
+library(ggplot2)
+library(scales)
+
+# Visualize missing values in each column
+plot <- gg_miss_var(data)
+
+# Modify the x-axis labels to display in the form of 1000's
+plot + scale_y_continuous(labels = label_number_si()) +
+  labs(
+    title = "Missing Data Visualization for all columns",
+    x = "Column Names",
+    y = "Missing Values (in thousands)"
+  )
+```
+
+**In the next step, we drop the following columns:**
+
+-   Columns with more than 10% missing values
+
+-   Columns which are non-essential to our analysis. The list of essential columns is given in the descriptive stats section of this page.
+
+**Revised plot of analysis essential columns which have less than 10% missing values:**
+
+```{r}
+library(naniar)
+library(tidyr)
+library(ggplot2)
+library(scales)
+
+# Picking only columns with less than 10% missing values and those which are essential to our analysis.
+
+columns_over_10_percent_missing <- missing_values %>%
+  filter(percentage_missing > 10) %>%
+  pull(Feature)
+
+#remove columns with over 10% missing values
+cleaned_data <- data |> 
+  select(-all_of(columns_over_10_percent_missing))
+
+# select only those columns relevant to the analysis
+cleaned_data <- data |>
+  select(1,8,10,16,17,20,24,29,30)
+
+
+# Visualize missing values in each column
+plot <- gg_miss_var(cleaned_data)
+
+# Modify the x-axis labels to display in the form of 1000's
+plot + scale_y_continuous(labels = label_number_si()) +
+  labs(
+    title = "Revised plot with essential columns having < 10% missing values",
+    x = "Column Names",
+    y = "Missing Values (in thousands)"
+  )
+```
+
+**Additional visuals on columns with missing data:**
+
+*Using the Redav library for plotting missing values with % instead of absolute counts.*
+
+```{r}
+library(redav)
+library(dplyr)
+
+plot_missing(cleaned_data, percent = TRUE)
+```
+
+**Conclusion from missing data analysis:**
+
+-   As per our analysis - Address , Address type, City, Longitude and Latitude of rat sightings are the ones with the highest missing values (still under 10%). We cannot impute these missing values by any means and our final analysis removed rows which had these missing values.
