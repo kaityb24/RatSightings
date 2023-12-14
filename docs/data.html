@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.3.433">
+<meta name="generator" content="quarto-1.3.353">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -19,6 +19,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -57,8 +91,7 @@ ul.task-list li input[type="checkbox"] {
     "search-more-matches-text": "more matches in this document",
     "search-clear-button-title": "Clear",
     "search-detached-cancel-button-title": "Cancel",
-    "search-submit-button-title": "Submit",
-    "search-label": "Search"
+    "search-submit-button-title": "Submit"
   }
 }</script>
 
@@ -77,7 +110,7 @@ ul.task-list li input[type="checkbox"] {
       <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="./data.html"><span class="chapter-number">2</span>&nbsp; <span class="chapter-title">Data</span></a></li></ol></nav>
       <a class="flex-grow-1" role="button" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar,#quarto-sidebar-glass" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
       </a>
-      <button type="button" class="btn quarto-search-button" aria-label="" onclick="window.quartoOpenSearch();">
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
         <i class="bi bi-search"></i>
       </button>
     </div>
@@ -91,7 +124,7 @@ ul.task-list li input[type="checkbox"] {
     <div class="sidebar-title mb-0 py-0">
       <a href="./">NYC Rat Sightings</a> 
         <div class="sidebar-tools-main">
-    <a href="https://github.com/kaityb24/RatSightings" rel="" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
+    <a href="https://github.com/kaityb24/RatSightings" title="Source Code" class="quarto-navigation-tool px-1" aria-label="Source Code"><i class="bi bi-github"></i></a>
 </div>
     </div>
       </div>
@@ -132,6 +165,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text"><span class="chapter-number">5</span>&nbsp; <span class="chapter-title">Conclusion</span></span></a>
   </div>
 </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./addendum.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text"><span class="chapter-number">6</span>&nbsp; <span class="chapter-title">Addendum</span></span></a>
+  </div>
+</li>
     </ul>
     </div>
 </nav>
@@ -142,8 +181,17 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#description" id="toc-description" class="nav-link active" data-scroll-target="#description"><span class="header-section-number">2.1</span> Description</a></li>
-  <li><a href="#missing-value-analysis" id="toc-missing-value-analysis" class="nav-link" data-scroll-target="#missing-value-analysis"><span class="header-section-number">2.2</span> Missing value analysis</a></li>
+  <li><a href="#technical-description" id="toc-technical-description" class="nav-link active" data-scroll-target="#technical-description"><span class="header-section-number">2.1</span> Technical Description</a>
+  <ul class="collapse">
+  <li><a href="#about-the-data" id="toc-about-the-data" class="nav-link" data-scroll-target="#about-the-data"><span class="header-section-number">2.1.1</span> About the data:</a></li>
+  <li><a href="#data-update-frequency-on-the-website" id="toc-data-update-frequency-on-the-website" class="nav-link" data-scroll-target="#data-update-frequency-on-the-website"><span class="header-section-number">2.1.2</span> Data update frequency on the website:</a></li>
+  <li><a href="#descriptive-stats-about-the-data" id="toc-descriptive-stats-about-the-data" class="nav-link" data-scroll-target="#descriptive-stats-about-the-data"><span class="header-section-number">2.1.3</span> Descriptive stats about the data:</a></li>
+  </ul></li>
+  <li><a href="#research-plan" id="toc-research-plan" class="nav-link" data-scroll-target="#research-plan"><span class="header-section-number">2.2</span> Research Plan:</a></li>
+  <li><a href="#missing-value-analysis" id="toc-missing-value-analysis" class="nav-link" data-scroll-target="#missing-value-analysis"><span class="header-section-number">2.3</span> Missing value analysis</a>
+  <ul class="collapse">
+  <li><a href="#table-of-columns-with-missing-values-and-their-missing-out-of-the-total-data." id="toc-table-of-columns-with-missing-values-and-their-missing-out-of-the-total-data." class="nav-link" data-scroll-target="#table-of-columns-with-missing-values-and-their-missing-out-of-the-total-data."><span class="header-section-number">2.3.1</span> Table of columns with missing values and their % missing out of the total data.</a></li>
+  </ul></li>
   </ul>
 <div class="toc-actions"><div><i class="bi bi-github"></i></div><div class="action-links"><p><a href="https://github.com/kaityb24/RatSightings/edit/main/data.qmd" class="toc-action">Edit this page</a></p><p><a href="https://github.com/kaityb24/RatSightings/issues/new" class="toc-action">Report an issue</a></p></div></div></nav>
     </div>
@@ -167,13 +215,246 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="description" class="level2" data-number="2.1">
-<h2 data-number="2.1" class="anchored" data-anchor-id="description"><span class="header-section-number">2.1</span> Description</h2>
+<section id="technical-description" class="level2" data-number="2.1">
+<h2 data-number="2.1" class="anchored" data-anchor-id="technical-description"><span class="header-section-number">2.1</span> Technical Description</h2>
+<section id="about-the-data" class="level3" data-number="2.1.1">
+<h3 data-number="2.1.1" class="anchored" data-anchor-id="about-the-data"><span class="header-section-number">2.1.1</span> About the data:</h3>
+<p>This is the New York City Rat Sightings Dataset, collected from NYC Open Data.</p>
+<blockquote class="blockquote">
+<p>Link to Data Source: <a href="https://data.cityofnewyork.us/Social-Services/Rat-Sightings/3q43-55fe">NYC Rat sightings dataset</a></p>
+</blockquote>
+<p>The data comes from 311 service requests and we imported the data directly from the link above using NYC Open Data’s csv API, downloaded onto our local system and then used it for the analysis.</p>
 </section>
-<section id="missing-value-analysis" class="level2" data-number="2.2">
-<h2 data-number="2.2" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.2</span> Missing value analysis</h2>
+<section id="data-update-frequency-on-the-website" class="level3" data-number="2.1.2">
+<h3 data-number="2.1.2" class="anchored" data-anchor-id="data-update-frequency-on-the-website"><span class="header-section-number">2.1.2</span> Data update frequency on the website:</h3>
+<p>Everyday 9AM EST. This dataset contains various columns representing different aspects of rat sightings in New York City from 2010 to present day and is updated daily on the NYC Open Data Platform.</p>
+</section>
+<section id="descriptive-stats-about-the-data" class="level3" data-number="2.1.3">
+<h3 data-number="2.1.3" class="anchored" data-anchor-id="descriptive-stats-about-the-data"><span class="header-section-number">2.1.3</span> Descriptive stats about the data:</h3>
+<p>The data has 31 features with 232,536 rows. We have not detailed all the 31 features but instead only the ones which will be mainly used for our analysis. An overall description of the features is given in the data addendum section.</p>
+<ol type="1">
+<li><p><strong>Created Date</strong>: The date and time when the sighting report was created. This will be important for a time series analysis of the dataset.</p></li>
+<li><p><strong>Agency, Agency Name</strong>: The agency responsible for handling the sighting report. The only agency here in the dataset is the <em>Department of Mental Health and Hygiene</em>. This shall not be used much for the analysis.</p></li>
+<li><p><strong>Location Type [loc_type]</strong>: The type of location where the sighting occurred. This categoric feature has 23 levels. Each level can be used to split the data for analysing indepth trends.</p></li>
+<li><p><strong>Incident Zip [zip]</strong>: The ZIP code where the sighting occurred. Used for geospatial analysis of the data.</p></li>
+<li><p><strong>Address Type [add_type]</strong>: The type of address provided for the sighting. There are 6 levels in this categoric feature <em>Intersection, Address, Blockface, Placename, Latlong, Unrecognized.</em></p></li>
+<li><p><strong>City [city]</strong>: The city area where the sighting occurred. While this feature is named city, it is actually areas in New York City where the sighting occurred. This is a categoric feature with 62 levels. We have identified the % distribution of data in each level and slice the data accordingly in the analysis.</p></li>
+<li><p><strong>Status [status]</strong>: The current status of the sighting report. This has 7 levels - <em>Pending, Closed, Assigned, In-Progress, Open, Draft, Unspecified.</em></p></li>
+<li><p><strong>Due Date [due]</strong>: The due date for resolving the report.</p></li>
+<li><p><strong>Borough [bor]</strong>: The borough in which the sighting occurred. This has 6 levels <em>Queens, Brooklyn, Manhattan, Bronx, Staten Island and Unspecified.</em></p></li>
+<li><p><strong>Latitude [lat]</strong>: The latitude of the sighting location. Used for geo-spatial mapping of sightings.</p></li>
+<li><p><strong>Longitude [long]</strong>: The longitude of the sighting location. Used for geo-spatial mapping of sightings</p></li>
+</ol>
+</section>
+</section>
+<section id="research-plan" class="level2" data-number="2.2">
+<h2 data-number="2.2" class="anchored" data-anchor-id="research-plan"><span class="header-section-number">2.2</span> Research Plan:</h2>
+<p><strong>1. Breakdown of research objectives</strong></p>
+<blockquote class="blockquote">
+<p><u><em>Primary Objective:</em></u></p>
+</blockquote>
+<ol type="i">
+<li>Understand patterns and trends of rat sightings in New York City.</li>
+</ol>
+<blockquote class="blockquote">
+<p><u><em>Secondary Objectives:</em></u></p>
+</blockquote>
+<ol type="i">
+<li><p>Identifying hotspots for rat sightings.</p></li>
+<li><p>Evaluating the effectiveness and efficiency of response actions.</p></li>
+<li><p>Investigating the seasonal and yearly trends in rat sightings.</p></li>
+<li><p>Examining correlations between rat sightings and various urban factors.</p></li>
+</ol>
+<p><strong>2. Data Exploration</strong></p>
+<ol type="i">
+<li><p>Primary features we will use for analysing this dataset:</p>
+<ul>
+<li><p><em>Incident Zip, Latitude, Longitude</em> for geospatial analysis and plotting maps of rat sightings using clustering techniques</p></li>
+<li><p><em>Location Type and Borough</em> for analysing areas of rat sighting hotspots and finding correlations between them.</p></li>
+</ul></li>
+</ol>
+<p><strong>3. Descriptive Analysis</strong></p>
+<ol type="i">
+<li><p><u><em>Initial Overview:</em></u> Summary statistics and basic visualizations.</p></li>
+<li><p><u><em>Geographical Analysis:</em></u> Map-based distribution visualization.</p></li>
+<li><p><u><em>Temporal Analysis:</em></u> Time-based trend analysis, segmented by categorical features like <em>borough, status, address type.</em></p></li>
+</ol>
+<p><strong>4. In-Depth Analysis</strong></p>
+<ol type="i">
+<li><p><u><em>Hotspot Identification:</em></u> Clustering for borrough-frequency analysis.</p></li>
+<li><p><u><em>Comparative Analysis:</em></u> Frequency and response comparison across borroughs, split by different categoric features as well as time periods.</p></li>
+</ol>
+<p><strong>5. Actionable Insights and Recommendations</strong></p>
+<ol type="i">
+<li><p>Derive insights for urban sanitation and rat control improvements.</p></li>
+<li><p>Policy recommendations to New York City authorities.</p></li>
+</ol>
+</section>
+<section id="missing-value-analysis" class="level2" data-number="2.3">
+<h2 data-number="2.3" class="anchored" data-anchor-id="missing-value-analysis"><span class="header-section-number">2.3</span> Missing value analysis</h2>
+<section id="table-of-columns-with-missing-values-and-their-missing-out-of-the-total-data." class="level3" data-number="2.3.1">
+<h3 data-number="2.3.1" class="anchored" data-anchor-id="table-of-columns-with-missing-values-and-their-missing-out-of-the-total-data."><span class="header-section-number">2.3.1</span> Table of columns with missing values and their % missing out of the total data.</h3>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Reading dataset</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">"C:</span><span class="sc">\\</span><span class="st">Columbia</span><span class="sc">\\</span><span class="st">EDAV</span><span class="sc">\\</span><span class="st">Final Project</span><span class="sc">\\</span><span class="st">Rat_Sightings.csv"</span>)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>replace_blanks_with_na <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (<span class="fu">is.character</span>(x)) {</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="st">""</span>, <span class="cn">NA</span>, x))</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> <span class="cf">if</span> (<span class="fu">is.integer</span>(x)) {</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(<span class="fu">ifelse</span>(x <span class="sc">==</span> <span class="dv">0</span>, <span class="cn">NA_integer_</span>, x)) <span class="co"># Replace '0' with NA for integers</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>  } <span class="cf">else</span> {</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">return</span>(x)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># replace every blank entry with NA</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), replace_blanks_with_na))</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="co">#renaming columns which are essential for our analysis</span></span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>cnames<span class="ot">&lt;-</span> <span class="fu">colnames</span>(data)</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a><span class="co">#renaming these columns</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="fu">rename</span>(</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">key =</span> <span class="fu">names</span>(data)[<span class="dv">1</span>], </span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">loc_type =</span> <span class="fu">names</span>(data)[<span class="dv">8</span>], </span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">zip =</span> <span class="fu">names</span>(data)[<span class="dv">9</span>],</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">add =</span> <span class="fu">names</span>(data)[<span class="dv">10</span>],</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">add_type =</span> <span class="fu">names</span>(data)[<span class="dv">16</span>],</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">city =</span> <span class="fu">names</span>(data)[<span class="dv">17</span>],</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">status =</span> <span class="fu">names</span>(data)[<span class="dv">20</span>],</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">due =</span> <span class="fu">names</span>(data)[<span class="dv">21</span>],</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">bor =</span> <span class="fu">names</span>(data)[<span class="dv">24</span>],</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">lat =</span> <span class="fu">names</span>(data)[<span class="dv">29</span>],</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">long =</span> <span class="fu">names</span>(data)[<span class="dv">30</span>]</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a><span class="co"># Total number of rows in the dataset</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>total_rows <span class="ot">&lt;-</span> <span class="fu">nrow</span>(data)</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate missing values count and percentage for each column</span></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>missing_values <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span><span class="fu">sum</span>(<span class="fu">is.na</span>(.)))) <span class="sc">|&gt;</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(), <span class="at">names_to =</span> <span class="st">"Feature"</span>, <span class="at">values_to =</span> <span class="st">"count_missing"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percentage_missing =</span> <span class="fu">round</span>((count_missing <span class="sc">/</span> total_rows) <span class="sc">*</span> <span class="dv">100</span>, <span class="dv">2</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(count_missing <span class="sc">&gt;</span> <span class="dv">0</span>) <span class="sc">|&gt;</span> <span class="co"># Filter out columns with no missing values</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(percentage_missing)) <span class="co"># Arrange in descending order of missing percentage</span></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the result</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(missing_values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 23 × 3
+   Feature               count_missing percentage_missing
+   &lt;chr&gt;                         &lt;int&gt;              &lt;dbl&gt;
+ 1 Landmark                     138744              59.7 
+ 2 Intersection.Street.1        118273              50.9 
+ 3 Intersection.Street.2        118233              50.8 
+ 4 Facility.Type                107309              46.2 
+ 5 due                          100304              43.1 
+ 6 Cross.Street.1                26376              11.3 
+ 7 Cross.Street.2                26365              11.3 
+ 8 Closed.Date                   17364               7.47
+ 9 add                           10942               4.71
+10 Street.Name                   10943               4.71
+# ℹ 13 more rows</code></pre>
+</div>
+</div>
+<p><strong>We plot a chart which shows all columns and their missing values:</strong></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize missing values in each column</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">gg_miss_var</span>(data)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify the x-axis labels to display in the form of 1000's</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>plot <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number_si</span>()) <span class="sc">+</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Missing Data Visualization for all columns"</span>,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Column Names"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Missing Values (in thousands)"</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>In the next step, we drop the following columns:</strong></p>
+<ul>
+<li><p>Columns with more than 10% missing values</p></li>
+<li><p>Columns which are non-essential to our analysis. The list of essential columns is given in the descriptive stats section of this page.</p></li>
+</ul>
+<p><strong>Revised plot of analysis essential columns which have less than 10% missing values:</strong></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(naniar)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyr)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(scales)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Picking only columns with less than 10% missing values and those which are essential to our analysis.</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>columns_over_10_percent_missing <span class="ot">&lt;-</span> missing_values <span class="sc">%&gt;%</span></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(percentage_missing <span class="sc">&gt;</span> <span class="dv">10</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Feature)</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="co">#remove columns with over 10% missing values</span></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>cleaned_data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span> </span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span><span class="fu">all_of</span>(columns_over_10_percent_missing))</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># select only those columns relevant to the analysis</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a>cleaned_data <span class="ot">&lt;-</span> data <span class="sc">|&gt;</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="dv">1</span>,<span class="dv">8</span>,<span class="dv">10</span>,<span class="dv">16</span>,<span class="dv">17</span>,<span class="dv">20</span>,<span class="dv">24</span>,<span class="dv">29</span>,<span class="dv">30</span>)</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualize missing values in each column</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">&lt;-</span> <span class="fu">gg_miss_var</span>(cleaned_data)</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Modify the x-axis labels to display in the form of 1000's</span></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>plot <span class="sc">+</span> <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> <span class="fu">label_number_si</span>()) <span class="sc">+</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Revised plot with essential columns having &lt; 10% missing values"</span>,</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Column Names"</span>,</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Missing Values (in thousands)"</span></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Additional visuals on columns with missing data:</strong></p>
+<p><em>Using the Redav library for plotting missing values with % instead of absolute counts.</em></p>
+<div class="cell">
+<details>
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(redav)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="fu">plot_missing</span>(cleaned_data, <span class="at">percent =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<p><img src="data_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><strong>Conclusion from missing data analysis:</strong></p>
+<ul>
+<li>As per our analysis - Address , Address type, City, Longitude and Latitude of rat sightings are the ones with the highest missing values (still under 10%). We cannot impute these missing values by any means and our final analysis removed rows which had these missing values.</li>
+</ul>
 
 
+</section>
 </section>
 
 </main> <!-- /main -->
