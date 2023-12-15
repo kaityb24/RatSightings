@@ -1,13 +1,58 @@
 # Interactive graph
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Rat Sightings in NYC</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+        /* CSS styles for the map and tooltips */
+        #map {
+            width: 960px;
+            height: 600px;
+            margin: 0 auto;
+        }
+        .tooltip {
+            position: absolute;
+            text-align: center;
+            width: 200px;
+            height: auto;
+            padding: 10px;
+            font: 12px sans-serif;
+            background: lightsteelblue;
+            border: 0px;
+            border-radius: 8px;
+            pointer-events: none;
+            opacity: 0;
+        }
+        .filter-container {
+            margin-bottom: 10px;
+        }
+        .filter-container select {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+    <div class="filter-container">
+        <label for="year-filter">Year:</label>
+        <select id="year-filter">
+            <option value="">Select Year</option>
+            <!-- Year options will be populated here -->
+        </select>
+        <label for="borough-filter">Borough:</label>
+        <select id="borough-filter">
+            <option value="">Select Borough</option>
+            <!-- Borough options will be populated here -->
+        </select>
+        <label for="building-type-filter">Building Type:</label>
+        <select id="building-type-filter">
+            <option value="">Select Building Type</option>
+            <!-- Building type options will be populated here -->
+        </select>
+    </div>
+    <script src="scripts/myscript.js"></script>
+</body>
+</html>
 
-<style>
-  * {
-    font-family: sans-serif;
-  }
-</style> 
-
-<div id="plot">
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="scripts/myscript.js"></script>

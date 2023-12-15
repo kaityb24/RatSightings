@@ -100,7 +100,8 @@ library(tidyr)
 library(ggplot2)
 
 # Reading dataset
-data <- read.csv("/Users/kaitlynbrown/Desktop/STAT5702/Rat_Sightings.csv")
+#"/Users/kaitlynbrown/Desktop/STAT5702/Rat_Sightings.csv"
+data <- read.csv("C:\\Columbia\\EDAV\\Final Project\\Rat_Sightings.csv")
 replace_blanks_with_na <- function(x) {
   if (is.character(x)) {
     return(ifelse(x == "", NA, x))

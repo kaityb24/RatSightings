@@ -1,20 +1,19 @@
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning=FALSE,message = FALSE)
+```
+
 # Results
 
 Outline
 
-How has the number of rat sighting reports changed over time?- overall times series
-  How does this differ across boroughs?- time series faceted by borough
-  How does this differ across location type?- time series faceted by location type (and bar chart to see most common location types)
-  
-Where is the rat problem the worst?
-  Which areas of NYC?- density map
-    How has this changed over time?- maybe d3 graph with button/slider to choose year. then make same graph with data from that year only
-  Which locations?- density map faceted by location type (consider that this might be influenced by differences in location types across different areas of the city)
-  
-What affects the status of a 311 rat sighting request?- mosaic plot with borough, year range, location type;  dependendent = status (and bar chart to see most common statuses)
+How has the number of rat sighting reports changed over time?- overall times series How does this differ across boroughs?- time series faceted by borough How does this differ across location type?- time series faceted by location type (and bar chart to see most common location types)
 
+Where is the rat problem the worst? Which areas of NYC?- density map How has this changed over time?- maybe d3 graph with button/slider to choose year. then make same graph with data from that year only Which locations?- density map faceted by location type (consider that this might be influenced by differences in location types across different areas of the city)
+
+What affects the status of a 311 rat sighting request?- mosaic plot with borough, year range, location type; dependendent = status (and bar chart to see most common statuses)
 
 ```{r}
+# Data pre-processing for results and analysis
 library(ggplot2)
 library(dplyr)
 library(scales)
@@ -24,50 +23,35 @@ library(sf)
 library(readxl)
 library(tmap)
 library(vcd)
+library(lubridate)
 
-df <- read.csv("/Users/kaitlynbrown/Desktop/STAT5702/Rat_Sightings.csv")
+df <- read.csv("C:\\Columbia\\EDAV\\Final Project\\Rat_Sightings.csv")
 df<- mutate(df, Created.Date = as.Date(Created.Date, format = "%m-%d-%Y"))
-
-ggplot(df, aes(Created.Date)) +
-    geom_bar(stat="count", na.rm = TRUE) +
-    ggtitle("Rat Sightings per Day") +
-    xlab("Date") + ylab("Number of Sightings") +
-    scale_x_date(labels=date_format ("%m-%d-%Y"))
-
+#"/Users/kaitlynbrown/Desktop/STAT5702/Rat_Sightings.csv"
+df$Year <- year(df$Created.Date)
+#df2: used for rat sightings per day by borugh
 df2 <- df[df$Borough != "Unspecified",]
 df2 <- df2[df2$Borough != "",]
-ggplot(df2, aes(Created.Date)) +
-    geom_bar(stat="count", na.rm = TRUE) +
-    ggtitle("Rat Sightings per Day by Borough") +
-    xlab("Date") + ylab("Number of Sightings") +
-    scale_x_date(labels=date_format ("%m-%d-%Y")) +
-    facet_wrap(~Borough)
 
-ggplot(df, aes(fct_infreq(Location.Type))) +
-    geom_bar(stat="count", na.rm = TRUE) + 
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
+# List of location types in NYC
 locations = list("3+ Family Mixed Use Building", "3+ Family Apt. Building", "1-2 Family Dwelling", "1-2 Family Mixed Use Building", "Commercial Building")
 
+#df3 : used for rat sightings per day by borough
 df3 <- df[df$Location.Type %in% locations,]
-ggplot(df3, aes(Created.Date)) +
-    geom_bar(stat="count", na.rm = TRUE) +
-    ggtitle("Rat Sightings per Day by Borough") +
-    xlab("Date") + ylab("Number of Sightings") +
-    scale_x_date(labels=date_format ("%m-%d-%Y")) +
-    facet_wrap(~Location.Type)
 
+
+# Calling stadia map
 nyc_map <- get_stadiamap(bbox = c(left = -74.2591, bottom = 40.4774, 
                                  right = -73.7002, top = 40.9162),
                         zoom = 10, maptype = "stamen_toner_lite")
 
+# Sampling the map
 df_sample = sample_n(df, nrow(df)/10)
 
-ggmap(nyc_map) +
-  geom_point(data = df_sample, aes(x=Longitude,y=Latitude), size = 0.01, color = 'red')
-
-zipcodes = st_read('/Users/kaitlynbrown/Desktop/STAT5702/nyc.shp',quiet=TRUE)
-
+# Getting zipcode shape file
+zipcodes = st_read("C:\\Columbia\\EDAV\\Final Project\\nyc.shp",quiet=TRUE)
+# KB's file path : '/Users/kaitlynbrown/Desktop/STAT5702/nyc.shp'
+# Making the zipcode shape 
 zipcodes <- zipcodes %>% 
        rename(Incident.Zip = 'modzcta')
 
@@ -77,32 +61,24 @@ df4 <- df %>% group_by(Incident.Zip) %>%
 
 map_df <- left_join(zipcodes, df4)
 
-tm_shape(map_df) + 
-  tm_polygons("total_count", id = 'Incident Zip', palette = "Blues", title="") + 
-  tm_facets(by= "") +
-  tm_layout("Rat Sightings from 2010-2023 by Zip Code",
-            title.size = .95, frame = FALSE)
-
+# Create dataframe for summarizing for incident and location type
 df5 <- df3 %>% group_by(Incident.Zip, Location.Type) %>% 
   summarise(total_count=n(),
             .groups = 'drop')
 
+# Create dataframe grouped by location type
 df6 <- df3 %>% group_by(Location.Type) %>% 
   summarise(total_count_loc=n(),
             .groups = 'drop')
 
+# Left join summarized (incident and location type charts) with dataframe grouped by location type and add a total count column as a percentage of total location count
 df5 <- left_join(df5,df6)
 df5$total_count <- df5$total_count / df5$total_count_loc
-df5
 
+# Create a dataframe by joining zipcodes with the combined (location type, %total counts,source mapped)
 map_df2 <- left_join(zipcodes, df5)
 
-tm_shape(map_df2) + 
-  tm_polygons("total_count", id = 'Incident Zip', palette = "Blues", title="") + 
-  tm_facets(by= 'Location.Type') +
-  tm_layout("Percentage of Rat Sightings from 2010-2023 in each Zip Code by Location Type",
-            title.size = .95, frame = FALSE)
-
+# Creating a dataframe by grouping years together.
 df7 <- mutate(df3, Year.Range = case_when(
     Created.Date < as.Date("01-01-2014", format = "%m-%d-%Y") ~ "2010-2013",
     Created.Date < as.Date("01-01-2018", format = "%m-%d-%Y") & Created.Date >= as.Date("01-01-2014", format = "%m-%d-%Y") ~ "2014-2017",
@@ -110,10 +86,7 @@ df7 <- mutate(df3, Year.Range = case_when(
     Created.Date >= as.Date("01-01-2022", format = "%m-%d-%Y") ~ "2022-2023"
     ))
 
-ggplot(df7, aes(fct_infreq(Status))) +
-    geom_bar(stat="count", na.rm = TRUE) + 
-    theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
-
+#Changing the name of the status of rat sighting actions in the dataframe
 df7 <- mutate(df7, Status = case_when(
     Status == "Closed" ~ "Closed",
     Status == "Pending" ~ "Not Closed",
@@ -122,16 +95,228 @@ df7 <- mutate(df7, Status = case_when(
     Status == "Open" ~ "Not Closed",
     Status == "Unspecified" ~ "Not Closed"))
 
+# Cleaning out the dataset with low % categories
 df7 <- df7[df7$Borough != 'STATEN ISLAND',]
 df7 <- df7[df7$Borough != 'Unspecified',]
 df7 <- df7[df7$Location.Type != '3+ Family Mixed Use Building',]
 df7 <- df7[df7$Location.Type != '1-2 Family Mixed Use Building',]
+```
 
-vcd::mosaic(Status ~ Borough + Year.Range, data = df7, direction = c('v','v','h'), highlighting_fill = c('green','red'), main = 'Status of Rat Sighting 311 Requests', labeling = vcd::labeling_border(rot_labels = c(45, 45)))
+\
+**Rat sightings per day since 2010**
 
-vcd::mosaic(Status ~ Location.Type + Year.Range, data = df7, direction = c('v','v','h'), highlighting_fill = c('green','red'), main = 'Status of Rat Sighting 311 Requests', labeling = vcd::labeling_border(rot_labels = c(45, 45)))
+```{r}
+# Plot 1: Rat sightings per day
+# Count sightings per year
+yearly_counts <- aggregate(df$Year, by=list(Year=df$Year), FUN=length)
+names(yearly_counts) <- c("Year", "Count")
+
+ggplot(yearly_counts, aes(x=Year, y=Count)) +
+    geom_line(color="black", size=1) +  # Blue line
+    geom_point(color="red", size=2) +  # Red points
+    ggtitle("Rat Sightings per Year") +
+    xlab("Year") + ylab("Number of Sightings") +
+    theme_minimal() +  # Minimalist theme
+    theme(
+        plot.title = element_text(hjust = 0.5),  # Center the plot title
+        axis.text.x = element_text(angle = 45, hjust = 1),  # Rotate x-axis labels
+        panel.grid.major = element_line(color = "gray", size = 0.5),  # Add major grid lines
+        panel.grid.minor = element_line(color = "lightgray", size = 0.25)  # Add minor grid lines
+    ) +
+    scale_x_continuous(breaks = yearly_counts$Year)
+```
+
+\
+**Overall concentration of Rat Sightings in New York City since 2010**
+
+```{r}
+# Plot 2: OVerall concentration of Rat Sightings so far on an NYC Map using geo-coordinates
+library(ggmap)
+ggmap(nyc_map) +
+  geom_point(data = df_sample, aes(x=Longitude,y=Latitude), size = 0.005, color = 'orange')+
+  ggtitle("Total rat sightings since 2010")
+```
+
+\
+**Rat sightings segmented by location type**
+
+```{r}
+# Plot 3: Rat sightings per day by location type
+df3$Year <- year(df3$Created.Date)  # Extract the year from the Created.Date
+
+# Plotting
+ggplot(df3, aes(Year)) +
+    geom_bar(stat="count", na.rm = TRUE) +
+    ggtitle("Rat sightings per year by Location Type") +
+    xlab("Year") + ylab("Number of Sightings") +
+    facet_wrap(~Location.Type) +
+    scale_x_continuous(breaks = unique(df3$Year)) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1,size=8))
+```
+
+\
+**Rat sightings across NYC boroughs**
+
+```{r}
+# Plot 4: Rat sightings per day, faceted by borough
+df2$Year <- year(df2$Created.Date)  # Extract the year from the Created.Date
+
+# Plotting
+ggplot(df2, aes(Year)) +
+    geom_bar(stat="count", na.rm = TRUE) +
+    ggtitle("Rat sightings per year by Borough") +
+    xlab("Year") + ylab("Number of Sightings") +
+    scale_x_continuous(breaks = unique(df2$Year)) +  # Adjust the x-axis to show years
+    facet_wrap(~Borough) +
+    theme(axis.text.x = element_text(angle = 90, hjust = 1,size=8))
+```
+
+\
+**Overall Rat Sightings by type of building**
+
+```{r}
+# Plot 5: Overall Rat sightings by location type
+df_filtered <- df %>%
+  group_by(Location.Type) %>%
+  summarize(Count = n()) %>%
+  filter(Count >= 10000) %>%
+  right_join(df, by = "Location.Type")
+
+# Plotting
+ggplot(df_filtered, aes(fct_infreq(Location.Type))) +
+    geom_bar(stat="count", na.rm = TRUE) +
+    ggtitle("Rat sightings by building type")+
+    xlab("Number of Sightings") +  # Label for the x-axis
+    ylab("Location Type") +  # Label for the y-axis
+    theme(
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 8),  # Customize x-axis text
+        axis.text.y = element_text(size = 8)  # Customize y-axis text
+    )
+```
+
+\
+**Zip-code wise Rat sightings in New York City**
+
+```{r}
+library(tmap)
+library(viridis)
+tmap_mode("view")
+tm_shape(map_df) +
+  tm_polygons("total_count", id = 'Incident Zip', palette = "viridis") +
+  tm_bubbles(size = 0.05, popup.vars = c("Zip Code" = "Incident.Zip"))+
+  tm_layout("Rat Sightings from 2010-2023 by Zip Code",
+            title.size = 0.95, frame = FALSE)
 ```
 
 ```{r}
+library(leaflet)
+library(sf)
+library(viridis)  # For more contrasting color palettes
 
+map_df_sf <- st_as_sf(map_df)
+
+# Create the leaflet map
+leaflet(map_df_sf) %>%
+  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%  # Use Esri.WorldGrayCanvas map tiles
+  addPolygons(
+    fillColor = ~colorNumeric(palette = "viridis", domain = map_df_sf$total_count)(total_count),
+    weight = 2,  # Increased weight for better visibility
+    opacity = 1,
+    color = "#444444",  # Darker border color for more contrast
+    dashArray = "3",
+    fillOpacity = 0.8,  # Slightly increased fill opacity
+    highlight = highlightOptions(
+      weight = 3,
+      color = "#666666",
+      dashArray = "",
+      fillOpacity = 0.9,
+      bringToFront = TRUE),
+    label = ~as.character(map_df_sf$Incident.Zip),
+    labelOptions = labelOptions(
+      style = list("font-weight" = "normal", padding = "3px 8px"),
+      textsize = "15px",
+      direction = "auto")
+  ) %>%
+  addLegend(
+    "bottomright",
+    pal = colorNumeric(palette = "viridis", domain = map_df_sf$total_count),
+    values = ~total_count,
+    title = "Total Count",
+    opacity = 0.7
+  ) %>%
+  addControl("<h3>Rat Sightings from 2010-2023 by Zip Code</h3>", position = "topleft", className = "map-title")
+```
+
+\
+
+```{r}
+# Plot 7: Zip code wise percentage Rat sightings faceted by building type
+tm_shape(map_df2) + 
+  tm_polygons("total_count", id = 'Incident Zip', palette = "Blues", title="") + 
+  tm_facets(by= 'Location.Type') +
+  tm_layout("Percentage of Rat Sightings from 2010-2023 in each Zip Code by Location Type",
+            title.size = 2, frame = FALSE)
+```
+
+\
+
+```{r}
+library(tmap)
+library(viridis)
+
+# Setting tmap to interactive viewing mode
+tmap_mode("view")
+
+# Create the faceted plot without legends
+tm_shape(map_df2) +
+  tm_polygons("total_count", palette = "viridis", show.legend = FALSE) +
+  tm_facets(by = "Location.Type")
+```
+
+\
+
+```{r}
+# Plot 8
+library(forcats)
+library(scales)
+
+total_count <- sum(table(df7$Status))
+
+ggplot(df7, aes(x = fct_infreq(Status))) +
+    geom_bar(aes(y = ..count.. / total_count * 100), stat="count", na.rm = TRUE) +
+    geom_text(aes(label = scales::percent(..count.. / total_count, accuracy = 1),
+                  y = ..count.. / total_count * 100), 
+              stat="count", vjust = -0.5) +  # Add percentage labels
+    ggtitle("Closed vs Unclosed Cases") +
+    xlab("Status") +
+    ylab("Percentage (%)") +
+    scale_y_continuous(labels = scales::percent_format(scale = 1)) +
+    theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))
+```
+
+```{r}
+#Plot 9: Plotting a mosaic plot, using Borugh as a categoric feature
+mosaic(Status ~ Borough + Year.Range, data = df7,
+       labeling = labeling_border(
+         rot_labels = c(0, 0, -60)
+       ),
+       direction = c('v', 'v', 'h'),
+       gp = gpar(col="white",fill = c('lightblue', 'gray')))
+
+```
+
+\
+
+```         
+```
+
+```{r}
+#Plot 10: Plotting a mosaic plot, using Location type as a categoric fearure
+mosaic(Status ~ Location.Type + Year.Range, data = df7,
+       labeling = labeling_border(
+         rot_labels = c(0, 0, -60)
+       ),
+       direction = c('v', 'v', 'h'),
+       main = 'Mosaic plot of rat sightings by Building Type',
+       gp = gpar(col="white",fill = c('lightblue', 'gray')))
 ```
