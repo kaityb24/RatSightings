@@ -24,25 +24,17 @@ The data has 31 features with 232,536 rows. We have not detailed all the 31 feat
 
 1.  **Created Date**: The date and time when the sighting report was created. This will be important for a time series analysis of the dataset.
 
-2.  **Agency, Agency Name**: The agency responsible for handling the sighting report. The only agency here in the dataset is the *Department of Mental Health and Hygiene*. This shall not be used much for the analysis.
+2.  **Location Type \[loc_type\]**: The type of location where the sighting occurred. This categoric feature has 23 levels. Each level can be used to split the data for analyzing in-depth trends.
 
-3.  **Location Type \[loc_type\]**: The type of location where the sighting occurred. This categoric feature has 23 levels. Each level can be used to split the data for analysing indepth trends.
+3.  **Incident Zip \[zip\]**: The ZIP code where the sighting occurred. Used for geospatial analysis of the data.
 
-4.  **Incident Zip \[zip\]**: The ZIP code where the sighting occurred. Used for geospatial analysis of the data.
+4.  **Status \[status\]**: The current status of the sighting report. This has 7 levels - *Pending, Closed, Assigned, In-Progress, Open, Draft, Unspecified.*
 
-5.  **Address Type \[add_type\]**: The type of address provided for the sighting. There are 6 levels in this categoric feature *Intersection, Address, Blockface, Placename, Latlong, Unrecognized.*
+5.  **Borough \[bor\]**: The borough in which the sighting occurred. This has 6 levels *Queens, Brooklyn, Manhattan, Bronx, Staten Island and Unspecified.*
 
-6.  **City \[city\]**: The city area where the sighting occurred. While this feature is named city, it is actually areas in New York City where the sighting occurred. This is a categoric feature with 62 levels. We have identified the % distribution of data in each level and slice the data accordingly in the analysis.
+6. **Latitude \[lat\]**: The latitude of the sighting location. Used for geo-spatial mapping of sightings.
 
-7.  **Status \[status\]**: The current status of the sighting report. This has 7 levels - *Pending, Closed, Assigned, In-Progress, Open, Draft, Unspecified.*
-
-8.  **Due Date \[due\]**: The due date for resolving the report.
-
-9.  **Borough \[bor\]**: The borough in which the sighting occurred. This has 6 levels *Queens, Brooklyn, Manhattan, Bronx, Staten Island and Unspecified.*
-
-10. **Latitude \[lat\]**: The latitude of the sighting location. Used for geo-spatial mapping of sightings.
-
-11. **Longitude \[long\]**: The longitude of the sighting location. Used for geo-spatial mapping of sightings
+7. **Longitude \[long\]**: The longitude of the sighting location. Used for geo-spatial mapping of sightings
 
 ## Research Plan:
 
@@ -54,41 +46,30 @@ i.  Understand patterns and trends of rat sightings in New York City.
 
 > [*Secondary Objectives:*]{.underline}
 
-i.  Identifying hotspots for rat sightings.
+i.  Investigating the seasonal and yearly trends in rat sightings.
 
-ii. Evaluating the effectiveness and efficiency of response actions.
+ii. Identifying hotspots for rat sightings.
 
-iii. Investigating the seasonal and yearly trends in rat sightings.
-
-iv. Examining correlations between rat sightings and various urban factors.
+iii. Investigating trends around whether a rat sighting 311 request is closed.
 
 **2. Data Exploration**
 
 i.  Primary features we will use for analysing this dataset:
+    -   *Created Date* for time series analysis
 
     -   *Incident Zip, Latitude, Longitude* for geospatial analysis and plotting maps of rat sightings using clustering techniques
 
-    -   *Location Type and Borough* for analysing areas of rat sighting hotspots and finding correlations between them.
+    -   *Location Type, Borough, Status* for finding correlations.
 
 **3. Descriptive Analysis**
 
 i.  [*Initial Overview:*]{.underline} Summary statistics and basic visualizations.
 
-ii. [*Geographical Analysis:*]{.underline} Map-based distribution visualization.
+ii. [*Temporal Analysis:*]{.underline} Time-based trend analysis, segmented by categorical features like *borough, location type.*
 
-iii. [*Temporal Analysis:*]{.underline} Time-based trend analysis, segmented by categorical features like *borough, status, address type.*
+iii. [*Geographical Analysis:*]{.underline} Map-based visualizations.
 
-**4. In-Depth Analysis**
-
-i.  [*Hotspot Identification:*]{.underline} Clustering for borrough-frequency analysis.
-
-ii. [*Comparative Analysis:*]{.underline} Frequency and response comparison across borroughs, split by different categoric features as well as time periods.
-
-**5. Actionable Insights and Recommendations**
-
-i.  Derive insights for urban sanitation and rat control improvements.
-
-ii. Policy recommendations to New York City authorities.
+iii. [*Correlation Analysis:*]{.underline} Analysis of correlated categorical variables like *year range, status, borough, location type.*
 
 ## Missing value analysis
 
@@ -101,7 +82,7 @@ library(ggplot2)
 
 # Reading dataset
 #"/Users/kaitlynbrown/Desktop/STAT5702/Rat_Sightings.csv"
-data <- read.csv("C:\\Columbia\\EDAV\\Final Project\\Rat_Sightings.csv")
+data <- read.csv("/Users/kaitlynbrown/Desktop/STAT5702/Rat_Sightings.csv")
 replace_blanks_with_na <- function(x) {
   if (is.character(x)) {
     return(ifelse(x == "", NA, x))
