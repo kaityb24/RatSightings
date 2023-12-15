@@ -12,6 +12,8 @@ Where is the rat problem the worst? Which areas of NYC?- density map How has thi
 
 What affects the status of a 311 rat sighting request?- mosaic plot with borough, year range, location type; dependendent = status (and bar chart to see most common statuses)
 
+**Data pre-processing**
+
 ```{r}
 # Data pre-processing for results and analysis
 library(ggplot2)
@@ -24,6 +26,7 @@ library(readxl)
 library(tmap)
 library(vcd)
 library(lubridate)
+library(viridis)
 
 df <- read.csv("C:\\Columbia\\EDAV\\Final Project\\Rat_Sightings.csv")
 df<- mutate(df, Created.Date = as.Date(Created.Date, format = "%m-%d-%Y"))
@@ -199,7 +202,7 @@ ggplot(df_filtered, aes(fct_infreq(Location.Type))) +
 
 ```{r}
 library(tmap)
-library(viridis)
+
 tmap_mode("view")
 tm_shape(map_df) +
   tm_polygons("total_count", id = 'Incident Zip', palette = "viridis") +
@@ -208,57 +211,7 @@ tm_shape(map_df) +
             title.size = 0.95, frame = FALSE)
 ```
 
-```{r}
-library(leaflet)
-library(sf)
-library(viridis)  # For more contrasting color palettes
-
-map_df_sf <- st_as_sf(map_df)
-
-# Create the leaflet map
-leaflet(map_df_sf) %>%
-  addProviderTiles(providers$Esri.WorldGrayCanvas) %>%  # Use Esri.WorldGrayCanvas map tiles
-  addPolygons(
-    fillColor = ~colorNumeric(palette = "viridis", domain = map_df_sf$total_count)(total_count),
-    weight = 2,  # Increased weight for better visibility
-    opacity = 1,
-    color = "#444444",  # Darker border color for more contrast
-    dashArray = "3",
-    fillOpacity = 0.8,  # Slightly increased fill opacity
-    highlight = highlightOptions(
-      weight = 3,
-      color = "#666666",
-      dashArray = "",
-      fillOpacity = 0.9,
-      bringToFront = TRUE),
-    label = ~as.character(map_df_sf$Incident.Zip),
-    labelOptions = labelOptions(
-      style = list("font-weight" = "normal", padding = "3px 8px"),
-      textsize = "15px",
-      direction = "auto")
-  ) %>%
-  addLegend(
-    "bottomright",
-    pal = colorNumeric(palette = "viridis", domain = map_df_sf$total_count),
-    values = ~total_count,
-    title = "Total Count",
-    opacity = 0.7
-  ) %>%
-  addControl("<h3>Rat Sightings from 2010-2023 by Zip Code</h3>", position = "topleft", className = "map-title")
-```
-
-\
-
-```{r}
-# Plot 7: Zip code wise percentage Rat sightings faceted by building type
-tm_shape(map_df2) + 
-  tm_polygons("total_count", id = 'Incident Zip', palette = "Blues", title="") + 
-  tm_facets(by= 'Location.Type') +
-  tm_layout("Percentage of Rat Sightings from 2010-2023 in each Zip Code by Location Type",
-            title.size = 2, frame = FALSE)
-```
-
-\
+**Zip code wise percentage rat sightings faceted by building type**
 
 ```{r}
 library(tmap)
@@ -274,6 +227,7 @@ tm_shape(map_df2) +
 ```
 
 \
+**Pending vs Closed in all of NYC**
 
 ```{r}
 # Plot 8
@@ -292,6 +246,30 @@ ggplot(df7, aes(x = fct_infreq(Status))) +
     ylab("Percentage (%)") +
     scale_y_continuous(labels = scales::percent_format(scale = 1)) +
     theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))
+```
+
+**Closed vs Pending cases by Borough**\
+
+```{r}
+df7_grouped <- df7 %>%
+  count(Borough, Status) %>%
+  group_by(Borough) %>%
+  mutate(Percent = n / sum(n))
+
+# Create the plot
+ggplot(df7_grouped, aes(x = Borough, y = Percent, fill = Status)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  geom_text(aes(label = scales::percent(Percent, accuracy = 1)),
+            position = position_dodge(width = 0.9), vjust = -0.5, size = 3) +
+  ggtitle("Closed vs Unclosed Cases by Borough") +
+  xlab("Borough") +
+  ylab("Percentage (%)") +
+  scale_fill_manual(values = c("Closed" = "lightgreen", "Pending" = "lightyellow")) +
+  theme(
+    axis.text.x = element_text(angle = 0, hjust = 1, size = 8),  
+    axis.text.y = element_text(size = 8),  
+    plot.title = element_text(size = 16)  
+  )
 ```
 
 ```{r}
