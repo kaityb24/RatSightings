@@ -60,6 +60,6 @@
     "href": "d3graph.html",
     "title": "4  Interactive graph",
     "section": "",
-    "text": "&lt;!DOCTYPE html&gt;\n\n\n\n\nRat Sightings in NYC\n\n\n\n\n\n\n\n\n\n    &lt;label for=\"year-filter\"&gt;Year:&lt;/label&gt;\n    &lt;select id=\"year-filter\"&gt;\n        &lt;option value=\"\"&gt;Select Year&lt;/option&gt;\n        &lt;!-- Year options will be populated here --&gt;\n    &lt;/select&gt;\n    &lt;label for=\"borough-filter\"&gt;Borough:&lt;/label&gt;\n    &lt;select id=\"borough-filter\"&gt;\n        &lt;option value=\"\"&gt;Select Borough&lt;/option&gt;\n        &lt;!-- Borough options will be populated here --&gt;\n    &lt;/select&gt;\n    &lt;label for=\"building-type-filter\"&gt;Building Type:&lt;/label&gt;\n    &lt;select id=\"building-type-filter\"&gt;\n        &lt;option value=\"\"&gt;Select Building Type&lt;/option&gt;\n        &lt;!-- Building type options will be populated here --&gt;\n    &lt;/select&gt;\n&lt;/div&gt;\n&lt;script src=\"scripts/myscript.js\"&gt;&lt;/script&gt;"
+    "text": "Select a series to display:\n\n Borough Building type  Add Year Remove Year"
   }
 ]

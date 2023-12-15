@@ -166,70 +166,46 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-&lt;!DOCTYPE html&gt;
-
-
-<meta charset="UTF-8">
-<title>
-Rat Sightings in NYC
-</title>
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <style>
-        /* CSS styles for the map and tooltips */
-        #map {
-            width: 960px;
-            height: 600px;
-            margin: 0 auto;
-        }
-        .tooltip {
-            position: absolute;
-            text-align: center;
-            width: 200px;
-            height: auto;
-            padding: 10px;
-            font: 12px sans-serif;
-            background: lightsteelblue;
-            border: 0px;
-            border-radius: 8px;
-            pointer-events: none;
-            opacity: 0;
-        }
-        .filter-container {
-            margin-bottom: 10px;
-        }
-        .filter-container select {
-            margin-right: 10px;
-        }
-    </style>
-
-
-<div id="map">
+  * {
+    font-family: sans-serif;
+  }
+</style>
+<style>
+      #tooltip {
+          position: absolute;
+          text-align: center;
+          width: auto;
+          height: auto;
+          padding: 8px;
+          font: 12px sans-serif;
+          background: lightsteelblue;
+          border: 0px;
+          border-radius: 8px;
+          pointer-events: none;
+          opacity: 0;
+      }
+  </style>
+<p>
+Select a series to display:
+</p>
+<p><select id="seriesSelector"> <option value="value">Borough</option> <option value="value1">Building type</option> </select> <button id="addButton">Add Year</button> <button id="removeButton">Remove Year</button></p>
+<p>
+</p>
+<div id="chart">
 
 </div>
-<div class="filter-container">
-<pre><code>    &lt;label for="year-filter"&gt;Year:&lt;/label&gt;
-    &lt;select id="year-filter"&gt;
-        &lt;option value=""&gt;Select Year&lt;/option&gt;
-        &lt;!-- Year options will be populated here --&gt;
-    &lt;/select&gt;
-    &lt;label for="borough-filter"&gt;Borough:&lt;/label&gt;
-    &lt;select id="borough-filter"&gt;
-        &lt;option value=""&gt;Select Borough&lt;/option&gt;
-        &lt;!-- Borough options will be populated here --&gt;
-    &lt;/select&gt;
-    &lt;label for="building-type-filter"&gt;Building Type:&lt;/label&gt;
-    &lt;select id="building-type-filter"&gt;
-        &lt;option value=""&gt;Select Building Type&lt;/option&gt;
-        &lt;!-- Building type options will be populated here --&gt;
-    &lt;/select&gt;
-&lt;/div&gt;
-&lt;script src="scripts/myscript.js"&gt;&lt;/script&gt;</code></pre>
+<div id="tooltip">
+
+</div>
+<p>
+</p>
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="scripts/myscript.js"></script>
 
 
 
-
-
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
