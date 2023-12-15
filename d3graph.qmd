@@ -1,13 +1,9 @@
 # Interactive graph
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Rat Sightings in NYC</title>
-    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-    <style>
-        /* CSS styles for the map and tooltips */
-        #map {
+
+<style>
+  * {
+    font-family: sans-serif;
+    #map {
             width: 960px;
             height: 600px;
             margin: 0 auto;
@@ -31,11 +27,12 @@
         .filter-container select {
             margin-right: 10px;
         }
-    </style>
-</head>
-<body>
-    <div id="map"></div>
-    <div class="filter-container">
+  }
+</style> 
+<title>Rat Sightings in NYC</title>
+<div id="#map">
+</div>
+<div class="filter-container">
         <label for="year-filter">Year:</label>
         <select id="year-filter">
             <option value="">Select Year</option>
@@ -52,7 +49,7 @@
             <!-- Building type options will be populated here -->
         </select>
     </div>
-    <script src="scripts/myscript.js"></script>
-</body>
-</html>
 
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+<script src="scripts/myscript.js"></script>
