@@ -198,6 +198,17 @@ ggplot(df_filtered, aes(fct_infreq(Location.Type))) +
 **Zip-code wise Rat sightings in New York City**
 
 ```{r}
+library(tmap)
+library(viridis)
+tmap_mode("view")
+tm_shape(map_df) +
+  tm_polygons("total_count", id = 'Incident Zip', palette = "viridis") +
+  tm_bubbles(size = 0.05, popup.vars = c("Zip Code" = "Incident.Zip"))+
+  tm_layout("Rat Sightings from 2010-2023 by Zip Code",
+            title.size = 0.95, frame = FALSE)
+```
+
+```{r}
 library(leaflet)
 library(sf)
 library(viridis)  # For more contrasting color palettes
