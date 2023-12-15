@@ -1,55 +1,47 @@
 # Interactive graph
 
-<style>
-  * {
-    font-family: sans-serif;
-    #map {
+<html>
+<head>
+    <title>Rat Sightings in NYC</title>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <style>
+        .chart {
             width: 960px;
-            height: 600px;
-            margin: 0 auto;
+            height: 500px;
         }
         .tooltip {
             position: absolute;
             text-align: center;
-            width: 200px;
+            width: auto;
             height: auto;
-            padding: 10px;
+            padding: 8px;
             font: 12px sans-serif;
             background: lightsteelblue;
             border: 0px;
             border-radius: 8px;
             pointer-events: none;
             opacity: 0;
+            transition: opacity 0.3s;
         }
-        .filter-container {
-            margin-bottom: 10px;
-        }
-        .filter-container select {
-            margin-right: 10px;
-        }
-  }
-</style> 
-<title>Rat Sightings in NYC</title>
-<div id="#map">
-</div>
-<div class="filter-container">
-        <label for="year-filter">Year:</label>
-        <select id="year-filter">
-            <option value="">Select Year</option>
-            <!-- Year options will be populated here -->
+    </style>
+</head>
+<body>
+    <div>
+        <label for="borough-select">Choose a borough:</label>
+        <select id="borough-select">
+            <option value="all">All Boroughs</option>
+            <!-- Options for boroughs will be added here -->
         </select>
-        <label for="borough-filter">Borough:</label>
-        <select id="borough-filter">
-            <option value="">Select Borough</option>
-            <!-- Borough options will be populated here -->
-        </select>
-        <label for="building-type-filter">Building Type:</label>
-        <select id="building-type-filter">
-            <option value="">Select Building Type</option>
-            <!-- Building type options will be populated here -->
+        <label for="building-type-select">Choose a building type:</label>
+        <select id="building-type-select">
+            <option value="all">All Building Types</option>
+            <!-- Options for building types will be added here -->
         </select>
     </div>
+    <svg class="chart"></svg>
+    <div class="tooltip"></div>
+    <script src="scripts/myscript.js"></script>
+</body>
+</html>
 
 
-<script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
-<script src="scripts/myscript.js"></script>
