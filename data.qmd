@@ -12,7 +12,7 @@ This is the New York City Rat Sightings Dataset, collected from NYC Open Data.
 
 > Link to Data Source: [NYC Rat sightings dataset](https://data.cityofnewyork.us/Social-Services/Rat-Sightings/3q43-55fe)
 
-The data comes from 311 service requests and we imported the data directly from the link above using NYC Open Data's csv API, downloaded onto our local system and then used it for the analysis.
+The data comes from 311 service requests and we imported the data directly from the link above using NYC Open Data's csv, downloaded onto our local system and then used it for the analysis.
 
 ### Data update frequency on the website:
 
@@ -57,9 +57,9 @@ iii. Investigating trends around whether a rat sighting 311 request is closed.
 i.  Primary features we will use for analysing this dataset:
     -   *Created Date* for time series analysis
 
-    -   *Incident Zip, Latitude, Longitude* for geospatial analysis and plotting maps of rat sightings using clustering techniques
+    -   *Incident Zip, Latitude, Longitude* for geospatial analysis and plotting maps of rat sightings
 
-    -   *Location Type, Borough, Status* for finding correlations.
+    -   *Location Type, Borough, Status* for finding correlations
 
 **3. Descriptive Analysis**
 
@@ -69,7 +69,7 @@ ii. [*Temporal Analysis:*]{.underline} Time-based trend analysis, segmented by c
 
 iii. [*Geographical Analysis:*]{.underline} Map-based visualizations.
 
-iii. [*Correlation Analysis:*]{.underline} Analysis of correlated categorical variables like *year range, status, borough, location type.*
+iii. [*Correlation Analysis:*]{.underline} Analysis of correlated categorical variables like *created date, status, borough, location type.*
 
 ## Missing value analysis
 

@@ -1,10 +1,16 @@
 # Conclusion
 The main conclusions of our analysis are the following:
+
+
 1. There is a seasonal trend in rat sightings, with fewer rats reported at colder times of year. This seasonal trend is not as strong in 3+ family apartment buildings, with rat sightings being more consistent across the seasons. 
+
 2. Rat sightings in NYC have increased over the past 13 years, particularly in Brooklyn and Manhattan.
+
 3. Rat sightings are most common in Manhattan, Brooklyn, and the Bronx. The main hotspots are in the Upper West Side, particularly the 10025 zip code, and a few zip codes in upper Brooklyn. 
-4. The vast majority of 311 requests for rat sightings are eventually closed, and the number of unclosed requests has consistently decreased over the past 13 years. This is true across location and location type. 
+
+4. The vast majority of 311 requests for rat sightings are eventually closed, and the number of unclosed requests has consistently decreased over the past 13 years. This is true across boroughs and location types. 
+
 
 The main limitation of our analysis was a lack of data on general trends in NYC population and housing. In certain cases, this made it difficult to establish whether certain trends in rat sightings that appeared in the plots were true or whether the plots were simply reflecting underlying population and housing trends in NYC.
 
-Future directions for this project would be to consider supplementing this analysis with other data sources, such as NYC population and housing. More affirmative conclusions could then be made in certain cases. Additional questions could also be asked, particularly ones pertaining to previous NYC programs designed to reduce the prevalence of rats. It would be interesting to see where and when these programs have taken place and whether there is a noticeable impact in the rat sightings data at these locations and times. It would be interesting to consider the length of time for these 311 requests to be closed, and what factors influence that.
+Future directions for this project would be to consider supplementing this analysis with other data sources, such as NYC population and housing. More affirmative conclusions could then be made in certain cases. Additional questions could also be asked, particularly ones pertaining to previous NYC programs designed to reduce the prevalence of rats. It would be interesting to see where and when these programs have taken place and whether there is a noticeable impact in the rat sightings data at these locations and times. It would also be interesting to consider the length of time for these 311 requests to be closed, and what factors influence that.

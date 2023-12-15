@@ -224,7 +224,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <blockquote class="blockquote">
 <p>Link to Data Source: <a href="https://data.cityofnewyork.us/Social-Services/Rat-Sightings/3q43-55fe">NYC Rat sightings dataset</a></p>
 </blockquote>
-<p>The data comes from 311 service requests and we imported the data directly from the link above using NYC Open Data’s csv API, downloaded onto our local system and then used it for the analysis.</p>
+<p>The data comes from 311 service requests and we imported the data directly from the link above using NYC Open Data’s csv, downloaded onto our local system and then used it for the analysis.</p>
 </section>
 <section id="data-update-frequency-on-the-website" class="level3" data-number="2.1.2">
 <h3 data-number="2.1.2" class="anchored" data-anchor-id="data-update-frequency-on-the-website"><span class="header-section-number">2.1.2</span> Data update frequency on the website:</h3>
@@ -266,8 +266,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li>Primary features we will use for analysing this dataset:
 <ul>
 <li><p><em>Created Date</em> for time series analysis</p></li>
-<li><p><em>Incident Zip, Latitude, Longitude</em> for geospatial analysis and plotting maps of rat sightings using clustering techniques</p></li>
-<li><p><em>Location Type, Borough, Status</em> for finding correlations.</p></li>
+<li><p><em>Incident Zip, Latitude, Longitude</em> for geospatial analysis and plotting maps of rat sightings</p></li>
+<li><p><em>Location Type, Borough, Status</em> for finding correlations</p></li>
 </ul></li>
 </ol>
 <p><strong>3. Descriptive Analysis</strong></p>
@@ -275,7 +275,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><p><u><em>Initial Overview:</em></u> Summary statistics and basic visualizations.</p></li>
 <li><p><u><em>Temporal Analysis:</em></u> Time-based trend analysis, segmented by categorical features like <em>borough, location type.</em></p></li>
 <li><p><u><em>Geographical Analysis:</em></u> Map-based visualizations.</p></li>
-<li><p><u><em>Correlation Analysis:</em></u> Analysis of correlated categorical variables like <em>year range, status, borough, location type.</em></p></li>
+<li><p><u><em>Correlation Analysis:</em></u> Analysis of correlated categorical variables like <em>created date, status, borough, location type.</em></p></li>
 </ol>
 </section>
 <section id="missing-value-analysis" class="level2" data-number="2.3">

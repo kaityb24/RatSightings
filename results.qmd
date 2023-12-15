@@ -69,7 +69,8 @@ df6 <- df3 %>% group_by(Location.Type) %>%
 
 # Left join summarized (incident and location type charts) with dataframe grouped by location type and add a total count column as a percentage of total location count
 df5 <- left_join(df5,df6)
-df5$total_count <- df5$total_count / df5$total_count_loc
+df5 <- df5[df5$Location.Type != "",]
+df5$proportion <- df5$total_count / df5$total_count_loc
 
 # Create a dataframe by joining zipcodes with the combined (location type, %total counts,source mapped)
 map_df2 <- left_join(zipcodes, df5)
@@ -110,7 +111,7 @@ ggplot(df, aes(Created.Date)) +
     scale_x_date(labels=date_format ("%m-%d-%Y"))
 ```
 
-We can see that there is a seasonal cycle in 311 requests for rat sightings. Sightings are lowest and the beginning and ends of the year and peak mid-year. This indicates that rat sightings may be positively correlated with warmer temperatures. We can also see that rat sightings have increased overall over the past 13 years, with the sharpest increases in the mid 2010s and in 2021 and 2022. 
+We can see that there is a seasonal cycle in 311 requests for rat sightings. Sightings are lowest at the beginnings and ends of the year and peak mid-year. This indicates that rat sightings may be positively correlated with warmer temperatures. We can also see that rat sightings have increased overall over the past 13 years, with the sharpest increases in the mid 2010s and in 2021 and 2022. 
 
 ```{r}
 ggplot(df2, aes(Created.Date)) +
@@ -134,9 +135,9 @@ df_filtered <- df %>%
 # Plotting
 ggplot(df_filtered, aes(fct_infreq(Location.Type))) +
     geom_bar(stat="count", na.rm = TRUE) +
-    ggtitle("Rat sightings by building type")+
-    xlab("Number of Sightings") +  # Label for the x-axis
-    ylab("Location Type") +  # Label for the y-axis
+    ggtitle("Rat sightings by Location Type")+
+    xlab("Location Type") +  # Label for the x-axis
+    ylab("Number of Sightings (2010-present)") +  # Label for the y-axis
     theme(
         axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 8),  # Customize x-axis text
         axis.text.y = element_text(size = 8)  # Customize y-axis text
@@ -148,8 +149,8 @@ We can see that the most common locations for rat sightings are 3+ family apartm
 ```{r}
 ggplot(df3, aes(Created.Date)) +
     geom_bar(stat="count", na.rm = TRUE) +
-    ggtitle("Rat Sightings per Day by Borough") +
-    xlab("Date") + ylab("Number of Sightings") +
+    ggtitle("Rat Sightings per Day by Location Type") +
+    xlab("Date") + ylab("Number of Sightings (2010-present)") +
     scale_x_date(labels=date_format ("%m-%d-%Y")) +
     facet_wrap(~Location.Type)
 ```
@@ -159,11 +160,11 @@ We can see that there is one apparent difference in the trend of rat sightings o
 **Question 2: Which regions of NYC have the most rat sightings? How does that change across location types?**
 
 ```{r}
-# Plot 2: OVerall concentration of Rat Sightings so far on an NYC Map using geo-coordinates
+# Plot 2: Overall concentration of Rat Sightings so far on an NYC Map using geo-coordinates
 library(ggmap)
 ggmap(nyc_map) +
   geom_point(data = df_sample, aes(x=Longitude,y=Latitude), size = 0.005, color = 'orange')+
-  ggtitle("Total rat sightings since 2010")
+  ggtitle("Distribution of 10% Sample of Rat Sightings (2010-present)")
 ```
 
 This plot shows a random sample of just 10% of all 311 requests for rat sightings across the city. We can see that sightings are most dense in Manhattan, upper Brooklyn, and the Bronx. Before affirmatively concluding that one is more likely to see rats in these areas, it is still important to consider the differences in the population density of these areas.
@@ -179,7 +180,7 @@ tm_shape(map_df) +
             title.size = 0.95, frame = FALSE)
 ```
 
-This plot allows us to look at the location of rat sightings on a more specific scale by zip code. Here, one trend that could not be seen in the previous plot is apparent. The Upper West side, particularly the 10025 zip code has many more rat sightings than the rest of Manhattan. 
+This plot allows us to look at the location of rat sightings on a more specific scale by zip code. Here, one trend that could not be seen in the previous plot is apparent. The Upper West side, particularly the 10025 zip code, has many more rat sightings than the rest of Manhattan. 
 
 ```{r}
 library(tmap)
@@ -190,11 +191,11 @@ tmap_mode("view")
 
 # Create the faceted plot without legends
 tm_shape(map_df2) +
-  tm_polygons("total_count", palette = "viridis", show.legend = FALSE) +
+  tm_polygons("proportion", palette = "viridis", show.legend = FALSE) +
   tm_facets(by = "Location.Type")
 ```
 
-We can also consider this plot faceted by the most common location types. The biggest noticeable difference here is that the zip codes in Brooklyn are the strongest hotspots for 1-2 family dwellings, 1-2 family mixed use buildings, and 3+ family apartment buildings. The Upper West side hotspot is strongest for 3+ family apartment buildings and 3+ mixed use buildings. Again, it is important to consider the underlying distributions here and which location types are generally more common in these zip codes.
+We can also consider this plot faceted by the most common location types. The biggest noticeable difference here is that the zip codes in Brooklyn are the strongest hotspots for 1-2 family dwellings, 1-2 family mixed use buildings, and 3+ family apartment buildings. The Upper West Side hotspot is strongest for 3+ family apartment buildings and 3+ mixed use buildings. Again, it is important to consider the underlying distributions here and which location types are generally more common in these zip codes.
 
 **Question 3: What factors influence whether a 311 request for a rat sighting is marked as closed?**
 
@@ -217,7 +218,7 @@ ggplot(df7, aes(x = fct_infreq(Status))) +
     theme(axis.text.x = element_text(angle = 0, vjust = 0.5, hjust=1))
 ```
 
-Here, we can see that the vast majority of 311 requests for rat sightings in the past 13 years have been marked as closed. The remaining are primarily pending, in progress, or assigned. 
+Here, we can see that the vast majority of 311 requests for rat sightings in the past 13 years have been marked as closed. The remaining in the "not closed" category are primarily pending, in progress, or assigned. 
 
 ```{r}
 df7_grouped <- df7 %>%
@@ -243,28 +244,23 @@ ggplot(df7_grouped, aes(x = Borough, y = Percent, fill = Status)) +
 
 This is true across boroughs.
 
-```{r}
+```{r, fig.height = 10, fig.width = 20}
 #Plot 9: Plotting a mosaic plot, using Borugh as a categoric feature
 mosaic(Status ~ Borough + Year.Range, data = df7,
-       labeling = labeling_border(
-         rot_labels = c(0, 0, -60)
-       ),
        direction = c('v', 'v', 'h'),
-       highlighting_fill = c('green','red'))
+       main = 'Mosaic plot of Rat sightings by Borough and Year Range',
+       highlighting_fill = c('green','red'), labeling = vcd::labeling_border(rot_labels = c(45, 45)))
 
 ```
 
 We can consider whether the year the request was made is correlated with how likely it is to be marked as closed. We can also consider whether the borough the request was made for is correlated with how likely it is to be marked as closed. Staten Island has been excluded here due to low overall rat sightings. Generally, across all boroughs, the proportion of unclosed requests has consistently decreased over the years. There does not appear to be a correlation between borough and whether a request is closed. 
 
-```{r}
+```{r, fig.height = 10, fig.width = 20}
 #Plot 10: Plotting a mosaic plot, using Location type as a categoric fearure
 mosaic(Status ~ Location.Type + Year.Range, data = df7,
-       labeling = labeling_border(
-         rot_labels = c(0, 0, -60)
-       ),
        direction = c('v', 'v', 'h'),
-       main = 'Mosaic plot of rat sightings by Building Type',
-       highlighting_fill = c('green','red'))
+       main = 'Mosaic plot of Rat sightings by Location Type and Year Range',
+       highlighting_fill = c('green','red'), labeling = vcd::labeling_border(rot_labels = c(45, 45)))
 ```
 
 We can also see that there does not appear to be a correlation between location type and whether a request is closed. The trend of decreasing proportion of unclosed requests holds true across location types. 
